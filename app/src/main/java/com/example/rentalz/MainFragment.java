@@ -1,5 +1,6 @@
 package com.example.rentalz;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,10 @@ public class MainFragment extends Fragment implements ApartmentListAdapter.ListA
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        AppCompatActivity aca = (AppCompatActivity) getActivity();
+        aca.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         binding = FragmentMainBinding.inflate(inflater, container,  false);
 
@@ -65,5 +71,11 @@ public class MainFragment extends Fragment implements ApartmentListAdapter.ListA
             bundle.putString("Apartment Id", apartmentId);
             Navigation.findNavController(getView()).navigate(R.id.editorFragment, bundle);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(this.getClass().getName(), "onResume");
+        mViewModel.getApartments();
     }
 }

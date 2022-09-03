@@ -26,7 +26,7 @@ public class MainViewModel extends ViewModel {
         getApartments();
     }
 
-    private void getApartments() {
+    public void getApartments() {
 
         List<ApartmentEntity> bList = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -3,6 +3,7 @@ package com.example.rentalz.data;
 import com.example.rentalz.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ApartmentEntity {
@@ -138,7 +139,19 @@ public class ApartmentEntity {
         this.reporter = reporter;
     }
 
-    public String getReporterName() {
+    public String getReporter() {
         return reporter;
+    }
+
+    public Map<String, Object> getMapWithoutId() {
+        Map<String, Object> bMap = new HashMap<>();
+        bMap.put("property", this.property);
+        bMap.put("bedrooms", this.bedrooms);
+        bMap.put("date", this.date);
+        bMap.put("price", this.price);
+        bMap.put("furniture", this.furniture);
+        bMap.put("notes", this.notes);
+        bMap.put("reporter", this.reporter);
+        return bMap;
     }
 }

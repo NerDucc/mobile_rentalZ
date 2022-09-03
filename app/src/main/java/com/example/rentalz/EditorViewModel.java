@@ -8,10 +8,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.rentalz.data.ApartmentEntity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Map;
 
 public class EditorViewModel extends ViewModel {
 
@@ -48,4 +52,23 @@ public class EditorViewModel extends ViewModel {
         });
     }
 
+    public void updateApartment(ApartmentEntity updateApartment) {
+        Map<String, Object> bMap = updateApartment.getMapWithoutId();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Constants.FS_APARTMENT_SET).document(updateApartment.getId())
+                .set(bMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(Constants.FIRE_STORE, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(Constants.FIRE_STORE, "Error writing document", e);
+                    }
+                });
+    }
 }
